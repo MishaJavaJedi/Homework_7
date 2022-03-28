@@ -11,14 +11,15 @@ class WallService {
     private var attachments = arrayListOf<Attachment>()
     private var comments = emptyArray<Comment>()
 
-    fun createComment(comment: Comment)  {
-        for (value in posts) {
-            if (comment.id == value.id) {
+    fun createComment(comment: Comment) {
+        for (post in posts) {
+            if (comment.postId == post.id) {
                 comments += comment
-            } else throw PostNotFoundException("Post not found")
+                return
+            }
         }
+        throw PostNotFoundException("Post not found")
     }
-
 
     fun printComments() {
         for (comment in comments) {
