@@ -10,7 +10,6 @@ import ru.data.Post
 import ru.data.Repost
 import ru.service.WallService
 
-
 class WallServiceTest {
     private val service = WallService()
     private val photoAtt =
@@ -61,18 +60,18 @@ class WallServiceTest {
     )
 
     @Test(expected = PostNotFoundException::class)
+    //createCommentThrow
     fun shouldThrow() {
         service.add(original)
         service.createComment(comment)
     }
 
     @Test
-    fun notShouldThrow() {
-        val expected = PostNotFoundException::class
-        service.add(original)
-        val commentCorrectPostId = comment.copy(postId = -2147483648)
-        val result: Unit = service.createComment(commentCorrectPostId)
-        assertNotSame(expected, result)
+    //createCommentTest
+    fun shouldNotThrow() {
+        val addedPost = service.add(original)
+        service.createComment(comment.copy(postId = addedPost.id))
+        assertNotSame(Unit::class, PostNotFoundException::class)
     }
 
     @Test
